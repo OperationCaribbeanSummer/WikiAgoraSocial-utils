@@ -1,0 +1,52 @@
+cff-version: "1.2.0"
+title: "WikiAgoraSocial-utils"
+message: "To cite WikiAgoraSocial-utils in publications please use the metadata from this file."
+type: "software"
+abstract: "Core utility library for WikiAgora Social ecosystem - providing API response handling, database connections, messaging integration, and common helper functions for Express.js microservices"
+authors:
+  - given-names: "Javier"
+    family-names: "Ramos Nistal"
+    website: "https://JaviRamosLab.com"
+    email: "co2mm.esperanto@gmail.com"
+  - name: "OperationCaribbeanSummer"
+    website: "https://OperationCaribbeanSummer.com"
+contact:
+  - family-names: "Javier"
+    given-names: "Ramos Nistal"
+    website: "https://JaviRamosLab.com"
+    email: "co2mm.esperanto@gmail.com"
+keywords:
+  - OperationCaribbeanSummer
+  - WikiAgora
+  - WikiAgoraSocial
+  - CivicTech
+  - democracy
+  - LiquidDemocracy
+  - eDemocracy
+  - OpenGovernment
+  - 44
+  - mlk
+  - mlk44
+  - AccountableGovernance
+  - CivicInnovation
+  - CollectiveIntelligence
+  - DeliberativeDemocracy
+  - DirectDemocracy
+  - eGovernance
+  - eParticipation
+  - GovernmentAsAPlatform
+  - OpenBudgets
+  - OpenData
+  - OpenDecisionMaking
+  - OpenGovernment
+  - OpenJustice
+  - OpenPolicy
+  - OpenSource
+  - ParticipatoryBudgeting
+  - ParticipatoryDemocracy
+  - TransparentGovernment
+version: "4.x.x"
+date-released: "2025-04-04"
+repository-code: "https://github.com/OperationCaribbeanSummer/WikiAgoraSocial-utils"
+url: "https://operationcaribbeansummer.com/projects/WikiAgoraSocial-utils"
+license: "MIT"

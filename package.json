@@ -1,10 +1,11 @@
 {
   "name": "@operationcaribbeansummer/wikiagorasocial-utils",
-  "version": "4.0.0",
-  "description": "Core utility library for WikiAgora Social ecosystem - providing API response handling, database connections, messaging integration, and common helper functions for Express.js microservices",
+  "version": "4.1.0",
+  "description": "🛠️🧰-(mlk)[]{} Core utility library for WikiAgora Social ecosystem - providing API response handling, database connections, messaging integration, and common helper functions for Express.js microservices",
   "keywords": [
     "OperationCaribbeanSummer",
     "WikiAgora",
+    "WikiAgoraSocial",
     "44",
     "mlk",
     "mlk44",
@@ -69,7 +70,7 @@
     "clean": "rm -rf node_modules package-lock.json",
     "coverage": "vitest --coverage",
     "depcheck": "npx depcheck --ignores='@operationcaribbeansummer/*'",
-    "dev": "node --watch src/index.js",
+    "dev": "node --watch app.js",
     "docs": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:dev": "vitepress dev docs",
@@ -78,14 +79,16 @@
     "lint:fix": "standard --fix src/**/*.js",
     "outdated": "npm outdated",
     "prepare": "husky",
+    "pack": "npm pack --pack-destination=./dist/",
     "prepublishOnly": "npm run lint && npm run test",
     "publish": "npm publish",
+    "release": "semantic-release",
     "size": "npx size-limit",
     "sort": "npx sort-package-json",
     "start": "node --watch src/index.js",
     "test": "vitest",
     "test:e2e": "vitest --testPattern=e2e",
-    "todo": "node run CHECKLIST-scrypt.sh",
+    "todo": "node run CHECKLIST-script.sh",
     "update-deps": "npm update && npm audit fix"
   },
   "config": {
@@ -104,6 +107,7 @@
     "cz-conventional-changelog": "^3.3.0",
     "husky": "^9.1.7",
     "morgan": "^1.10.1",
+    "semantic-release": "25.0.5",
     "standard": "^17.1.2",
     "supertest": "^7.1.4",
     "vitest": "^4.1.6"
@@ -126,5 +130,6 @@
   "security": {
     "contact": "co2mm.esperanto@gmail.com",
     "policy": "https://github.com/OperationCaribbeanSummer/WikiAgoraSocial-utils/security/policy"
-  }
+  },
+  "private": false
 }
