@@ -38,6 +38,8 @@ const { calculateDistance } = require('./calculateDistance.js');
 // ============================================================================
 const { isValidObjectId, parseObjectId } = require('./mongoose.js');
 
+const { singularToPlural } = require('./singularToPlural.js');
+
 const utils = {
     // API Response
     metadataResponse,
