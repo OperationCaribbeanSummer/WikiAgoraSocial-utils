@@ -10,35 +10,56 @@
 // ============================================================================
 // API Response Utilities
 // ============================================================================
-const { metadataResponse } = require('./apiResponse.js');
+const { metadataResponse } = require('./apiResponse');
 
 // ============================================================================
 // String Utilities
 // ============================================================================
-const { capitalize } = require('./capitalize.js');
-const { toSlug } = require('./toSlug.js');
+const { capitalize } = require('./capitalize');
+const { toSlug } = require('./toSlug');
 
 // ============================================================================
 // Date & Time Utilities
 // ============================================================================
-const { formatDate } = require('./formatDate.js');
+const { formatDate } = require('./formatDate');
 
 // ============================================================================
 // Text Processing Utilities
 // ============================================================================
-const { truncate } = require('./truncate.js');
+const { truncate } = require('./truncate');
 
 // ============================================================================
 // Geospatial Utilities
 // ============================================================================
-const { calculateDistance } = require('./calculateDistance.js');
+const { calculateDistance } = require('./calculateDistance');
 
 // ============================================================================
 // Mongoose & MongoDB Utilities
 // ============================================================================
-const { isValidObjectId, parseObjectId } = require('./mongoose.js');
+const { isValidObjectId, parseObjectId } = require('./mongoose');
 
-const { singularToPlural } = require('./singularToPlural.js');
+const { singularToPlural } = require('./singularToPlural');
+
+const { global44 } = require('./global44');
+
+const {
+    head,
+    option,
+    getAll,
+    createOne,
+    headOne,
+    optionOne,
+    getOne,
+    updateOne,
+    replaceOne,
+    deleteOne,
+    bulkHead,
+    bulkOption,
+    bulkCreate,
+    bulkUpdate,
+    bulkReplace,
+    bulkDelete
+} = require('./apiFactory');
 
 const utils = {
     // API Response
@@ -60,6 +81,32 @@ const utils = {
     // Mongoose Utilities
     isValidObjectId,
     parseObjectId,
+
+    // Collection Name Utilities
+    singularToPlural,
+
+    // Global Configuration
+    global44,
+
+    // API Factory (CRUD & Bulk Operations)
+    apiFactory: {
+        head,
+        option,
+        getAll,
+        createOne,
+        headOne,
+        optionOne,
+        getOne,
+        updateOne,
+        replaceOne,
+        deleteOne,
+        bulkHead,
+        bulkOption,
+        bulkCreate,
+        bulkUpdate,
+        bulkReplace,
+        bulkDelete
+    }
 };
 
 module.exports = utils;
