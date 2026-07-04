@@ -1,0 +1,16 @@
+meta {
+  name: bulkHead
+  type: http
+  seq: 14
+}
+
+head {
+  url: {{base_url}}/users/bulk
+  body: json
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

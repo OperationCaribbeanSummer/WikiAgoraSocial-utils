@@ -1,0 +1,16 @@
+meta {
+  name: getAll
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{base_url}}/users
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

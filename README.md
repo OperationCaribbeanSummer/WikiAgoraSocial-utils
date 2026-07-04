@@ -53,18 +53,232 @@ For a detailed list of dependencies, see [package.json](./package.json).
 ## Installation
 
 ```bash
-npm install WikiAgoraSocial-utils
+npm install @operationcaribbeansummer/wikiagorasocial-utils
 ```
 
 ## Basic Usage
 
 ```js
 // CommonJS
-const myPackage = require("WikiAgoraSocial-utils");
+const utils = require("@operationcaribbeansummer/wikiagorasocial-utils");
 
 // ES Modules
-import myPackage from "WikiAgoraSocial-utils";
+import utils from "@operationcaribbeansummer/wikiagorasocial-utils";
 ```
+
+```js
+const {
+  apiFactory,
+} = require("@operationcaribbeansummer/wikiagorasocial-utils");
+
+// Example: Create a User model first
+const userSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  createdAt: { type: Date, default: Date.now },
+});
+const User = mongoose.model("User", userSchema);
+
+const options = {
+  searchFields: ["name", "email"],
+  defaultSort: "-createdAt",
+  defaultSelect: "-__v",
+};
+
+app.get("/api/v4/users", apiFactory.getAll(User, options));
+app.get("/api/v4/users/:id", apiFactory.getOne(User));
+app.get("/api/v4/users/:id", apiFactory.getOne(User));
+app.put("/api/v4/users/:id", apiFactory.updateOne(User));
+app.patch("/api/v4/users/:id", apiFactory.replaceOne(User));
+app.delete("/api/v4/users/:id", apiFactory.deleteOne(User));
+app.post("/api/v4/users/bulk", apiFactory.bulkCreate(User));
+app.put("/api/v4/users/bulk", apiFactory.bulkUpdate(User));
+app.patch("/api/v4/users/bulk", apiFactory.bulkReplace(User));
+app.delete("/api/v4/users/bulk", apiFactory.bulkDelete(User));
+app.options("/api/v4/users/:id", apiFactory.optionOne(User));
+app.options("/api/v4/users", apiFactory.option(User));
+app.head("/api/v4/users/:id", apiFactory.headOne(User));
+app.head("/api/v4/users", apiFactory.head(User));
+```
+
+```js
+const utils = require("@operationcaribbeansummer/wikiagorasocial-utils");
+
+utils.capitalize("test-string"); //
+utils.toSlug("test%string"); //
+utils.formatDate(""); //
+utils.truncate(""); //
+utils.isValidObjectId(""); //
+utils.parseObjectId(""); //
+
+// singularToPlural
+utils.singularToPlural(""); //
+```
+
+```js
+const { global44 } = require("@operationcaribbeansummer/wikiagorasocial-utils");
+
+// Apply as global middleware in your Express app
+app.use(global44());
+
+// Or with custom configuration
+app.use(
+  global44({
+    apiVersion: "v4",
+    rateLimit: {
+      limit: 1000,
+      remaining: 999,
+      reset: 3600,
+    },
+    pageSize: 20,
+  }),
+);
+```
+
+## 🔧 Global Middleware - `global44`
+
+The `global44` middleware automatically adds comprehensive HTTP headers to all responses, providing better API documentation, security, and request tracking.
+
+### Features
+
+- **Request Tracking**: Automatically generates unique request IDs and measures response time
+- **Security Headers**: Implements industry-standard security headers (HSTS, XSS protection, CSP)
+- **CORS Support**: Configurable Cross-Origin Resource Sharing headers
+- **Rate Limiting**: Built-in rate limiting information headers
+- **Pagination**: Default pagination headers for list endpoints
+- **Content Negotiation**: Comprehensive Accept/Content headers
+- **Caching Control**: Proper cache control and ETag headers
+- **API Versioning**: Automatic API version tracking
+
+### Configuration Options
+
+| Option                | Type   | Default | Description                      |
+| --------------------- | ------ | ------- | -------------------------------- |
+| `apiVersion`          | String | `'v4'`  | API version identifier           |
+| `rateLimit.limit`     | Number | `1000`  | Maximum requests per window      |
+| `rateLimit.remaining` | Number | `999`   | Remaining requests in window     |
+| `rateLimit.reset`     | Number | `3600`  | Window reset time in seconds     |
+| `pageSize`            | Number | `20`    | Default page size for pagination |
+
+### Response Headers Added
+
+#### Basic Information
+
+- `x-timestamp` - Current server timestamp
+- `X-API-Version` - API version (configurable)
+- `X-Powered-By` - Server identifier
+- `x-user-role` - Authenticated user role (or 'anonymous')
+
+#### Content Negotiation
+
+- `Accept-Patch`, `Accept-Post` - Supported media types
+- `Accept-Charset` - Character encoding preferences
+- `Accept-Datetime` - Datetime format preference
+- `Accept-Encoding` - Compression algorithms
+- `Accept-Language` - Language preference
+- `Accept-Ranges` - Byte range support
+- `Content-Type`, `Content-Language`, `Content-Encoding`
+
+#### CORS Headers
+
+- `Access-Control-Allow-Origin` - Allowed origins
+- `Access-Control-Allow-Methods` - HTTP methods
+- `Access-Control-Allow-Headers` - Request headers
+- `Access-Control-Allow-Credentials` - Credential sharing
+- `Access-Control-Max-Age` - Preflight cache duration
+- `Access-Control-Expose-Headers` - Exposed response headers
+
+#### Security Headers
+
+- `X-Content-Type-Options: nosniff` - MIME type sniffing protection
+- `X-Frame-Options: DENY` - Clickjacking protection
+- `X-XSS-Protection: 1; mode=block` - XSS filter
+- `Strict-Transport-Security` - HSTS (1 year)
+- `Referrer-Policy` - Referrer information control
+- `Permissions-Policy` - Feature permissions
+- `Cross-Origin-*` policies - Isolation controls
+
+#### Caching Headers
+
+- `Cache-Control` - Cache directives
+- `Pragma`, `Expires` - Legacy cache control
+- `ETag` - Entity tag for validation
+- `Last-Modified` - Last modification timestamp
+- `Vary` - Cache variation factors
+
+#### Rate Limiting
+
+- `RateLimit-Limit` - Maximum requests allowed
+- `RateLimit-Remaining` - Remaining requests
+- `RateLimit-Reset` - Reset timestamp (Unix epoch)
+- `Retry-After` - Retry delay in seconds
+
+#### Pagination
+
+- `X-Total-Count` - Total items count
+- `X-Page-Number` - Current page number
+- `X-Page-Size` - Items per page
+- `X-Total-Pages` - Total pages
+
+#### Request Tracking
+
+- `X-Request-ID` - Unique request identifier (from client or auto-generated)
+- `X-Response-Time` - Response time in milliseconds
+
+#### Server Information
+
+- `Allow` - Allowed HTTP methods
+- `Server` - Server identification
+- `Host` - Request host
+- `Date` - Current server date/time (UTC)
+
+### Usage Example
+
+```js
+const express = require("express");
+const { global44 } = require("@operationcaribbeansummer/wikiagorasocial-utils");
+
+const app = express();
+
+// Apply global middleware with custom configuration
+app.use(
+  global44({
+    apiVersion: "v5",
+    // rateLimit: {
+    //   limit: 5000,
+    //   remaining: 4999,
+    //   reset: 7200
+    // },
+    // pageSize: 50
+  }),
+);
+
+// All routes will now include comprehensive headers
+app.get("/api/users", (req, res) => {
+  // Access request ID for logging
+  console.log("Request ID:", req.requestId);
+
+  res.json({
+    success: true,
+    data: [],
+  });
+});
+```
+
+### Request Object Extensions
+
+The middleware also extends the request object with:
+
+- `req.requestId` - The unique request identifier for logging purposes
+- `req._startTime` - Timestamp when the request was received (for response time calculation)
+
+### Best Practices
+
+1. **Apply Early**: Add `global44()` middleware early in your middleware stack
+2. **Customize Per Environment**: Use different configurations for development vs production
+3. **Logging Integration**: Use `req.requestId` for correlating logs across services
+4. **Override When Needed**: Specific routes can override default headers (e.g., pagination headers)
+5. **Monitor Rate Limits**: Clients can use rate limit headers to implement backoff strategies
 
 ## ⚙️ Configuration
 
@@ -72,11 +286,17 @@ Create a .env file or pass configuration options directly:
 
 ```js
 javascript;
-import { configure } from "WikiAgoraSocial-utils";
+const {
+  apiFactory,
+} = require("@operationcaribbeansummer/wikiagorasocial-utils");
 
-configure({
-  // configs
-});
+const options = {
+  searchFields: ["name", "email"],
+  defaultSort: "-createdAt",
+  defaultSelect: "-__v",
+};
+
+app.get("/api/v4/users", apiFactory.getAll(User, options));
 ```
 
 For advanced configuration, see [docs/configuration.md](./docs/configuration.md).
@@ -171,4 +391,4 @@ Copyleft (ɔ) 2023-2026, **Javier Ramos Nistal** <https://github.com/JaviRamosLa
 
 ### Show some ❤️ by starring 🌟 some of the [repositories](https://github.com/orgs/OperationCaribbeanSummer/repositories), [membering in the community](https://github.com/orgs/OperationCaribbeanSummer/people) and [fallowing us](https://github.com/orgs/OperationCaribbeanSummer)🙏!
 
-### Developed by Javier Ramos Nistal ([JaviRamosLab.com](https://JaviRamosLab.com)), ([@JaviRamosLab](https://github.com/JaviRamosLab)), ([++JaviRamosLab](https://OperationCaribbeanSummer.com/peoples/JaviRamosLab)) from 🇨🇺 Cuba with "❤️, ⏰" and whithout "💰"
+### Developed by Javier Ramos Nistal ([JaviRamosLab.com](https://JaviRamosLab.com)), ([@JaviRamosLab](https://github.com/JaviRamosLab)), ([++JaviRamosLab](https://OperationCaribbeanSummer.org/peoples/JaviRamosLab)) from 🇨🇺 Cuba with "❤️, ⏰" and whithout "💰"

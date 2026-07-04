@@ -1,0 +1,16 @@
+meta {
+  name: bulkDelete
+  type: http
+  seq: 13
+}
+
+delete {
+  url: {{base_url}}/users/bulk
+  body: json
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

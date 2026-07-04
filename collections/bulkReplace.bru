@@ -1,0 +1,16 @@
+meta {
+  name: bulkReplace
+  type: http
+  seq: 12
+}
+
+put {
+  url: {{base_url}}/users/bulk
+  body: json
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
