@@ -85,6 +85,24 @@ const global44 = function (config = {}) {
                 'Server': config.server || 'WikiAgoraSocial/4.0',
                 'X-Generator': config.xGenerator || 'WikiAgoraSocial'
             });
+            res.links({
+                alternate: 'https://operationcaribbeansummer/alternate',
+                archive: 'https://operationcaribbeansummer/archive',
+                author: 'https://operationcaribbeansummer/author',
+                canonical: 'https://operationcaribbeansummer/canonical',
+                contact: 'https://operationcaribbeansummer/contact',
+                copyright: 'https://operationcaribbeansummer/copyright',
+                documentation: 'https://operationcaribbeansummer/docs',
+                help: 'https://operationcaribbeansummer/docs',
+                license: 'https://operationcaribbeansummer/license',
+                privacy: 'https://operationcaribbeansummer/privacy',
+                publisher: 'https://operationcaribbeansummer/publisher',
+                robots: 'https://operationcaribbeansummer/robots.txt',
+                search: 'https://operationcaribbeansummer/search',
+                sitemap: 'https://operationcaribbeansummer/sitemap.xml',
+                status: 'https://operationcaribbeansummer/status',
+                terms: 'https://operationcaribbeansummer/terms',
+            });
 
             // Attach requestId to request object for logging purposes
             req.requestId = requestId;
@@ -104,3 +122,46 @@ const global44 = function (config = {}) {
 module.exports = {
     global44
 };
+
+// headers
+// 'content-security-policy':
+// 'cross-origin-opener-policy':
+// 'cross-origin-resource-policy':
+// 'origin-agent-cluster':
+// 'referrer-policy':
+// 'strict-transport-security':
+// 'x-content-type-options':
+// 'x-dns-prefetch-control':
+// 'x-download-options':
+// 'x-frame-options':
+// 'x-permitted-cross-domain-policies':
+// 'x-xss-protection':
+// 'access-control-allow-origin':
+// 'x-timestamp':
+// 'x-api-version':
+// 'x-powered-by':
+// 'x-user-role':
+// 'accept':
+// 'accept-patch':
+// 'accept-post':
+// 'accept-charset':
+// 'accept-datetime':
+// 'accept-encoding':
+// 'accept-language':
+// 'accept-ranges':
+// 'content-type':
+// 'host':
+// 'date':
+// 'permissions-policy':
+// 'cross-origin-embedder-policy':
+// 'cache-control':
+// 'pragma':
+// 'expires':
+// 'etag':
+// 'last-modified':
+// 'vary':
+// 'allow':
+// 'x-request-id':
+// 'x-response-time':
+// 'server':
+// 'x-generator':

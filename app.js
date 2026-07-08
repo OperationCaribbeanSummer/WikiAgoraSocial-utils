@@ -18,8 +18,8 @@ app.use(cookieParser());
 
 app.all('*', (req, res, next) => {
   req.user = { "id": "44", "role": "admin" }
-  console.log("req.user===");
-  console.log(req.user)
+  // console.log("req.user===");
+  // console.log(req.user)
   next()
 })
 
@@ -89,6 +89,35 @@ app.post('/api/v4/users/bulk', apiFactory.bulkCreate(User));
 app.patch('/api/v4/users/bulk', apiFactory.bulkUpdate(User));
 app.put('/api/v4/users/bulk', apiFactory.bulkReplace(User));
 app.delete('/api/v4/users/bulk', apiFactory.bulkDelete(User));
+
+// notImplementedController
+const notImplementedOptions = {
+  "plannedFeatures": [],
+  "estimatedRelease": null,
+  "documentation": "https://operationcaribbeansummer.org/docs/"
+}
+app.get('/api/v4/not-implemented', apiFactory.notImplemented(User, notImplementedOptions))
+
+// aggregate
+// app.get('/api/v4/aggregate', apiFactory.aggregate())
+
+// lastModifiedDoc
+app.get('/api/v4/last-modified', apiFactory.lastModifiedDoc(User))
+
+// newestDoc
+app.get('/api/v4/newest', apiFactory.newestDoc(User))
+
+// oldestDoc
+app.get('/api/v4/oldest', apiFactory.oldestDoc(User))
+
+// random
+app.get('/api/v4/random', apiFactory.random(User, { maxRandomCount: 100, includeTotalCount: true }))
+
+// stats
+app.get('/api/v4/stats', apiFactory.stats(User))
+
+// getNearbyBakeries
+app.get('/api/v4/nearby', apiFactory.getNearby(User))
 
 app.get('*', (req, res) => {
   try {

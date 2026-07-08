@@ -301,6 +301,57 @@ app.get("/api/v4/users", apiFactory.getAll(User, options));
 
 For advanced configuration, see [docs/configuration.md](./docs/configuration.md).
 
+## apiFactory
+
+Basic usage - get 1 random item
+```js
+router.get('/random', apiFactory.random(Item));
+```js
+
+Get multiple random items
+```js
+router.get('/random', apiFactory.random(Post, {
+    maxRandomCount: 50  // Allow up to 50 random items
+}));
+```
+
+```js
+// GET /api/posts/random?count=5
+// Returns 5 random posts
+
+// With filters - get random items matching criteria
+// GET /api/items/random?count=3&filters={"category":"electronics","inStock":true}
+router.get('/random', apiFactory.random(Item, {
+    defaultSelect: 'name price category -__v',
+    includeTotalCount: true
+}));
+
+// With field selection
+// GET /api/users/random?count=10&fields=username,avatar
+router.get('/random', apiFactory.random(User, {
+    maxRandomCount: 20,
+    maxTimeMS: 3000
+}));
+```
+
+Response Format:
+
+```json
+{
+  "success": true,
+  "message": "Successfully retrieved 5 random items",
+  "metadata": { ... },
+  "count": 5,
+  "requestedCount": 5,
+  "totalAvailable": 1250,
+  "data": [
+    { "_id": "...", "name": "Item 1", ... },
+    { "_id": "...", "name": "Item 2", ... },
+    ...
+  ]
+}
+```
+
 ## 📚 Documentation
 
 - [API Reference](./docs/api.md)

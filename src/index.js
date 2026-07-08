@@ -43,22 +43,30 @@ const { singularToPlural } = require('./singularToPlural');
 const { global44 } = require('./global44');
 
 const {
-    head,
-    option,
-    getAll,
-    createOne,
-    headOne,
-    optionOne,
-    getOne,
-    updateOne,
-    replaceOne,
-    deleteOne,
+    aggregate,
+    bulkCreate,
+    bulkDelete,
     bulkHead,
     bulkOption,
-    bulkCreate,
-    bulkUpdate,
     bulkReplace,
-    bulkDelete
+    bulkUpdate,
+    createOne,
+    deleteOne,
+    getAll,
+    getNearby,
+    getOne,
+    head,
+    headOne,
+    lastModifiedDoc,
+    newestDoc,
+    notImplemented,
+    oldestDoc,
+    option,
+    optionOne,
+    random,
+    replaceOne,
+    stats,
+    updateOne
 } = require('./apiFactory');
 
 const utils = {
@@ -90,22 +98,30 @@ const utils = {
 
     // API Factory (CRUD & Bulk Operations)
     apiFactory: {
-        head,
-        option,
-        getAll,
-        createOne,
-        headOne,
-        optionOne,
-        getOne,
-        updateOne,
-        replaceOne,
-        deleteOne,
+        aggregate,
+        bulkCreate,
+        bulkDelete,
         bulkHead,
         bulkOption,
-        bulkCreate,
-        bulkUpdate,
         bulkReplace,
-        bulkDelete
+        bulkUpdate,
+        createOne,
+        deleteOne,
+        getAll,
+        getNearby,
+        getOne,
+        head,
+        headOne,
+        lastModifiedDoc,
+        newestDoc,
+        notImplemented,
+        oldestDoc,
+        option,
+        optionOne,
+        random,
+        replaceOne,
+        stats,
+        updateOne
     }
 };
 
