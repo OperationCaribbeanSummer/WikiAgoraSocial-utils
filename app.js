@@ -51,14 +51,20 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', userSchema);
 
-const options = {
+app.head('/api/v4/users', apiFactory.head(User));
+const optionOptions = {
   optionsHeader: config44.optionsHeader,
   optionsBody: config44.optionsBody,
   bulkOptions: config44.bulkOptions
 }
+app.options('/api/v4/users', apiFactory.option(User, optionOptions));
 
-app.head('/api/v4/users', apiFactory.head(User));
-app.options('/api/v4/users', apiFactory.option(User, options));
+const getAllOptions = {
+  searchFields: ['name', 'email'],
+  defaultSort: '-updatedAt',
+  defaultSelect: '-__v',
+  // 'populate': ''
+}
 // Use the apiFactory correctly - it's a factory that needs Model and options
 // app.get('/api/v4/users', utils.apiFactory.getAll(User, {
 app.get('/api/v4/users', apiFactory.getAll(User, {
@@ -67,16 +73,15 @@ app.get('/api/v4/users', apiFactory.getAll(User, {
   defaultSelect: '-__v',
   config44: config44
 }));
-// {
-//     "searchFields": "";
-//     "defaultSelect": "";
-//     "defaultSort": "";
-//     "populate": "";
-// }
 
 app.head('/api/v4/users/:id', apiFactory.headOne(User));
 app.options('/api/v4/users/:id', apiFactory.optionOne(User, options));
 app.post('/api/v4/users', apiFactory.createOne(User));
+const getOneOptions = {
+  defaultSort: '-updatedAt',
+  defaultSelect: '-__v',
+  // 'populate': ''
+}
 app.get('/api/v4/users/:id', apiFactory.getOne(User));
 app.patch('/api/v4/users/:id', apiFactory.updateOne(User));
 app.put('/api/v4/users/:id', apiFactory.replaceOne(User));
@@ -123,7 +128,7 @@ app.get('*', (req, res) => {
   try {
     console.log('all endpoint');
     console.log(`${req.protocol}://${req.get('host')}${req.baseUrl}${req.path}`);
-    res.json({})
+    res.status(400).json({})
   } catch (error) {
     console.log(error);
     res.status(500).json({

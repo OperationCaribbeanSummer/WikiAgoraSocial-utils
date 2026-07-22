@@ -21,6 +21,7 @@ const global44 = function (config = {}) {
                 'X-API-Version': config.apiVersion || config44.apiVersion || 'v4', // process.env.API_VERSION
                 'X-Powered-By': config.xPoweredBy || 'Express44',
                 'x-user-role': req.user?.role || 'guest',
+                'x-environment': process.env.NODE_ENV,
 
                 // Content negotiation headers
                 'Accept': config.accept || 'application/json',
@@ -57,11 +58,11 @@ const global44 = function (config = {}) {
                 'Cross-Origin-Embedder-Policy': 'require-corp',
 
                 // Caching headers
-                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Cache-Control': 'no-cache, no-store, must-revalidate', // if POST, PUT, PATCH, DELETE
                 'Pragma': 'no-cache',
                 'Expires': '0',
-                'ETag': `W/"${Date.now()}"`, // Simple version hash
-                'Last-Modified': new Date().toUTCString(),
+                // 'ETag': `W/"${Date.now()}"`, // Simple version hash
+                // 'Last-Modified': new Date().toUTCString(),
                 'Vary': 'Accept-Encoding, Accept-Language, Authorization',
 
                 // API-specific headers

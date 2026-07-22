@@ -24,11 +24,48 @@
 
 ## ✨ Features
 
-- ✅ Feature 1 – brief explanation
-- ✅ Feature 2 – works with CommonJS and ES modules
-- ✅ Feature 3 – zero dependencies
-- 🚧 Feature 4 – planned for future release
-- 🚧 Feature 5 – contributions welcome
+- ✅ works with CommonJS and ES modules
+- ✅ zero dependencies
+- ✅ Rate limiting
+- ✅ Compression
+- ✅ CORS
+- ✅ HTTP/2 support
+- ✅ RFC 9457 Problem Details
+- ✅ RFC 9110 conditional requests
+- ✅ RFC 8288 Link headers
+
+- 🚧 contributions welcome
+
+- 🚧 OpenTelemetry
+- 🚧 Prometheus metrics
+- 🚧 Structured logging
+- 🚧 Circuit Breaker
+- 🚧 Bulkhead
+- 🚧 Retry Policy
+- 🚧 Idempotency-Key
+- 🚧 Request deduplication
+- 🚧 Distributed tracing
+- 🚧 Request correlation IDs
+- 🚧 Async audit logging
+- 🚧 Cache invalidation
+- 🚧 Query cost analyzer
+- 🚧 Mongo explain() endpoint (admin)
+- 🚧 API version negotiation
+- 🚧 Feature flags
+- 🚧 Soft delete filters
+- 🚧 Multi-tenant support
+- 🚧 Read replicas
+- 🚧 Streaming JSON
+- 🚧 NDJSON export
+- 🚧 SSE endpoints
+- 🚧 RFC 7233 Range support
+- 🚧 Cursor pagination
+- 🚧 Query complexity limiter
+- 🚧 Automatic field whitelist
+- 🚧 Projection validator
+- 🚧 Population validator
+- 🚧 Aggregation pipeline validator
+- 🚧 OpenAPI response generation
 
 > More ideas and feature requests are welcome – [open an issue](https://github.com/operationcaribbeansummer/WikiAgoraSocial-utils/issues/new)
 
@@ -85,6 +122,7 @@ const options = {
   defaultSelect: "-__v",
 };
 
+// CRUD API
 app.get("/api/v4/users", apiFactory.getAll(User, options));
 app.get("/api/v4/users/:id", apiFactory.getOne(User));
 app.get("/api/v4/users/:id", apiFactory.getOne(User));
@@ -213,13 +251,6 @@ The `global44` middleware automatically adds comprehensive HTTP headers to all r
 - `RateLimit-Reset` - Reset timestamp (Unix epoch)
 - `Retry-After` - Retry delay in seconds
 
-#### Pagination
-
-- `X-Total-Count` - Total items count
-- `X-Page-Number` - Current page number
-- `X-Page-Size` - Items per page
-- `X-Total-Pages` - Total pages
-
 #### Request Tracking
 
 - `X-Request-ID` - Unique request identifier (from client or auto-generated)
@@ -243,7 +274,7 @@ const app = express();
 // Apply global middleware with custom configuration
 app.use(
   global44({
-    apiVersion: "v5",
+    apiVersion: "v4",
     // rateLimit: {
     //   limit: 5000,
     //   remaining: 4999,
@@ -303,17 +334,218 @@ For advanced configuration, see [docs/configuration.md](./docs/configuration.md)
 
 ## apiFactory
 
-Basic usage - get 1 random item
-```js
+**apiFactory** is a utility functions for building RESTful APIs with Mongoose models. It provides a set of pre-defined routes and middleware for common operations like create, read, update, delete, and more.
+
+**apiFactory** is a utility functions for creating CRUD endpoints for Mongoose models. It provides a set of methods for handling common operations like creating, reading, updating, and deleting data.
+
+**Grouped by Functionality**:
+
+Because your factory applies to any model, group it by **API capabilities**.
+
+**Grouped by Domain** (Custom Business Logic):
+
+For controllers that require specific business logic (e.g., sending a welcome email after `create`, or calculating a specific discount), group by **Domain/Entity**.
+
+**Single-Function Files**:
+
+Avoid creating a single file per action (e.g., create.js, getAll.js, update.js).
+
+- File Explosion: A medium app will have 50+ controllers. Navigating 100 tiny files is harder than navigating 10 well-organized ones.
+- Router Clutter: Your routes.js will require importing 50 individual files
+- Loss of Context: Business logic for a "User" is split across 10 files, making it hard to understand the full lifecycle of the entity.
+
+- [x] Domain-Based Grouping Files | domain/functionality multi-controller files (`crud.js`)
+- [ ] Single-Function Files | Single File per Action (`create.js`, `getAll.js`)
+
+folder structures:
+
+```
+/apiFactory/
+	/fileName.js
+
+/apiFactory/
+	/domainFileName.js
+
+/apiFactory/
+	domain-functionality/
+		fileName.js
+```
+
+### 💡 Implementation Priority Recommendations
+
+**High Priority**:
+
+- ✅ search - Full-text search is critical
+- ✅ trending - Content discovery driver
+- ✅ stats - Analytics foundation
+- ✅ similar - Recommendation engine
+- ✅ discovery - Personalization
+
+**Medium Priority**:
+
+- popular / topContent - Engagement metrics
+- advancedFilter - Power user features
+- activityTimeline - Visualization support
+- taxonomy - Content organization
+- bulkExport - Data portability
+
+**Low Priority** (Specialized use cases):
+
+- geoClusters - Map-heavy applications
+- weightedRandom - Gaming/gamification
+- qualityScores - Content platforms
+- previewCard - Social sharing focus
+- scheduledContent - Publishing workflows
+
+| Feature                                                                  | Recommended |
+| ------------------------------------------------------------------------ | :---------: |
+| CRUD operations                                                          |     ✅      |
+| Soft delete and restore                                                  |     ✅      |
+| Pagination (offset and cursor)                                           |     ✅      |
+| Filtering and advanced search                                            |     ✅      |
+| Sorting                                                                  |     ✅      |
+| Sparse field selection (`fields`)                                        |     ✅      |
+| Population of related documents                                          |     ✅      |
+| Bulk operations                                                          |     ✅      |
+| Aggregation and statistics                                               |     ✅      |
+| Conditional requests (`ETag`, `If-None-Match`, `If-Match`)               |     ✅      |
+| Optimistic concurrency                                                   |     ✅      |
+| Query time limits (`maxTimeMS`/`AbortController`)                        |     ✅      |
+| Compression support                                                      |     ✅      |
+| Cache-control headers                                                    |     ✅      |
+| Rate limiting integration                                                |     ✅      |
+| Audit logging                                                            |     ✅      |
+| OpenAPI-compatible responses                                             |     ✅      |
+| Consistent RFC 9457 Problem Details or standardized JSON error responses |     ✅      |
+| Structured logging and request correlation IDs                           |     ✅      |
+| Observability (metrics and tracing)                                      |     ✅      |
+
+A comprehensive implementation would include:
+
+- A configurable controller factory (`apiFactory.functionName(Model,options)`)
+- +30 controller methods
+- Mongoose support
+- Transactions
+- Bulk operations
+- Aggregation pipeline builder
+- Query parser
+- Pagination
+- Filtering
+- Full-text search
+- Sorting
+- Projection
+- Population
+- Soft delete
+- Restore/archive
+- Optimistic concurrency
+- AbortController
+- maxTimeMS
+- ETag support
+- Cache abstraction
+- CSV/JSON/XLSX export
+- Import handlers
+- OpenAPI-compatible responses
+- RFC 9457 Problem Details errors
+- Structured logging hooks
+- Metrics hooks
+- Audit hooks
+- Lifecycle hooks (`beforeCreate`, `afterUpdate`, etc.)
+- JSDoc for every function
+- Complete CommonJS module exports
+
+- Full JSDoc documentation
+- 100% CommonJS compatibility
+- Express 4 support
+- Mongoose 8 support
+- Node.js 22 compatibility
+- OpenAPI 3.1 support
+- RFC 9457 Problem Details
+- Comprehensive lifecycle hooks
+- Unit tests
+- Integration tests
+- Example application
+- README and API documentation
+
+🎯 **Content Discovery & Ranking Controllers**
+
+- Trending Controller
+- Popular/Hot Controller
+- Top Content Controller
+
+🔍 **Advanced Search & Filtering Controllers**
+
+- Full-Text Search Controller
+- Similar Items Controller
+- Advanced Filters Controller
+
+📊 **Analytics & Statistics Controllers**
+
+- Aggregated Stats Controller
+- Activity Timeline Controller
+
+🌐 **Discovery & Exploration Controllers**
+
+- Discovery Feed Controller
+- Related Content Controller
+
+📈 **Engagement Metrics Controllers**
+
+- Reactions Analytics Controller
+
+🗺️ **Geospatial Controllers**
+
+- getNearby
+- Geospatial Aggregation Controller
+- Route/Path Controller
+
+🔄 **Batch & Bulk Operations Controllers**
+
+- Bulk Import Controller
+- Bulk Export Controller
+
+🏷️ **Taxonomy & Classification Controllers**
+
+- Tags/Topics Controller
+- Categories Tree Controller
+
+⏱️ **Time-Based Controllers**
+
+- Recently Active Controller
+- Scheduled Content Controller
+
+🎲 **Randomization & Sampling Controllers**
+
+- Weighted Random Controller
+- Diverse Sample Controller
+
+🔐 **Moderation & Quality Controllers**
+
+- Flagged Content Controller
+
+📱 **Mobile/Social Optimization Controllers**
+
+- Preview Card Controller
+- Shareable Link Controller
+
+📚 **Content Organization Controllers**
+
+- Content Folders Controller
+
+### Basic usage
+
+get 1 random item
+
+````js
 router.get('/random', apiFactory.random(Item));
 ```js
 
 Get multiple random items
+
 ```js
-router.get('/random', apiFactory.random(Post, {
+router.get('/random', apiFactory.random(Model, {
     maxRandomCount: 50  // Allow up to 50 random items
 }));
-```
+````
 
 ```js
 // GET /api/posts/random?count=5
@@ -321,17 +553,23 @@ router.get('/random', apiFactory.random(Post, {
 
 // With filters - get random items matching criteria
 // GET /api/items/random?count=3&filters={"category":"electronics","inStock":true}
-router.get('/random', apiFactory.random(Item, {
-    defaultSelect: 'name price category -__v',
-    includeTotalCount: true
-}));
+router.get(
+  "/random",
+  apiFactory.random(Model, {
+    defaultSelect: "name price category -__v",
+    includeTotalCount: true,
+  }),
+);
 
 // With field selection
 // GET /api/users/random?count=10&fields=username,avatar
-router.get('/random', apiFactory.random(User, {
+router.get(
+  "/random",
+  apiFactory.random(Model, {
     maxRandomCount: 20,
-    maxTimeMS: 3000
-}));
+    maxTimeMS: 3000,
+  }),
+);
 ```
 
 Response Format:
@@ -351,6 +589,287 @@ Response Format:
   ]
 }
 ```
+
+### Functions
+
+#### head
+
+`apiFactory.head(Model, options)`
+
+HEAD support.
+
+#### option
+
+`apiFactory.option(Model, options)`
+
+#### getAll
+
+`apiFactory.getAll(Model, options)`
+
+- pagination
+- filtering
+- search
+- sorting
+- field selection
+- population
+- ETag
+- cache headers
+
+```http
+GET /users
+?page=1
+&limit=20
+&sort=-createdAt
+&fields=name,email
+&search=john
+```
+
+#### createOne
+
+`apiFactory.createOne(Model, options)`
+
+- POST
+- Validation
+- Duplicate checking
+- Audit logging
+- Return created document
+
+```
+POST /users
+```
+
+#### headOne
+
+`apiFactory.headOne(Model, options)`
+
+#### optionOne
+
+`apiFactory.optionOne(Model, options)`
+
+#### getOne
+
+`apiFactory.getOne(Model, options)`
+
+- id lookup
+- slug lookup
+- custom identifier
+- population
+
+```
+GET /users/123
+```
+
+#### updateOne
+
+`apiFactory.updateOne(Model, options)`
+
+- PATCH
+- optimistic concurrency
+- If-Match
+- updatedAt
+- audit logging
+- Return updated document
+
+#### replaceOne
+
+`apiFactory.replaceOne(Model, options)`
+
+- PUT
+- Entire document replacement.
+
+#### deleteOne
+
+`apiFactory.deleteOne(Model, options)`
+
+Soft delete preferred.
+
+- archive
+- restore
+- hard delete
+
+#### bulkHead
+
+`apiFactory.bulkHead(Model, options)`
+
+#### bulkOption
+
+`apiFactory.bulkOption(Model, options)`
+
+#### bulkCreate
+
+`apiFactory.bulkCreate(Model, options)`
+
+#### bulkUpdate
+
+`apiFactory.bulkUpdate(Model, options)`
+
+#### bulkReplace
+
+`apiFactory.bulkReplace(Model, options)`
+
+#### bulkDelete
+
+`apiFactory.bulkDelete(Model, options)`
+
+#### random
+
+`apiFactory.random(Model, options)`
+
+Useful for examples.
+
+```
+GET /users/random
+```
+
+#### notImplemented
+
+`apiFactory.notImplemented(Model, options)`
+
+#### aggregate
+
+`apiFactory.aggregate(Model, options)`
+
+Generic Mongo aggregation.
+
+```
+POST /users/aggregate
+```
+
+#### lastModifiedDoc
+
+`apiFactory.lastModifiedDoc(Model, options)`
+
+#### newestDoc
+
+`apiFactory.newestDoc(Model, options)`
+
+#### oldestDoc
+
+`apiFactory.oldestDoc(Model, options)`
+
+#### getNearby
+
+`apiFactory.getNearby(Model, options)`
+
+#### stats
+
+`apiFactory.stats(Model, options)`
+
+Aggregation.
+
+```
+GET /users/stats
+```
+
+#### trending
+
+`apiFactory.trending(Model, options)`
+
+#### popular
+
+`apiFactory.popular(Model, options)`
+
+#### topContent
+
+`apiFactory.topContent(Model, options)`
+
+#### search
+
+`apiFactory.search(Model, options)`
+
+Dedicated search endpoint.
+
+```
+GET /users/search?q=john
+```
+
+#### similar
+
+`apiFactory.similar(Model, options)`
+
+#### advancedFilter
+
+`apiFactory.advancedFilter(Model, options)`
+
+#### stats
+
+`apiFactory.stats(Model, options)`
+
+#### activityTimeline
+
+`apiFactory.activityTimeline(Model, options)`
+
+#### discovery
+
+`apiFactory.discovery(Model, options)`
+
+#### related
+
+`apiFactory.related(Model, options)`
+
+#### mostEngaged
+
+`apiFactory.mostEngaged(Model, options)`
+
+#### reactionsAnalytics
+
+`apiFactory.reactionsAnalytics(Model, options)`
+
+#### geoClusters
+
+`apiFactory.geoClusters(Model, options)`
+
+#### geoSearch
+
+`apiFactory.geoSearch(Model, options)`
+
+#### bulkImport
+
+`apiFactory.bulkImport(Model, options)`
+
+#### bulkExport
+
+`apiFactory.bulkExport(Model, options)`
+
+#### taxonomy
+
+`apiFactory.taxonomy(Model, options)`
+
+#### categoriesTree
+
+`apiFactory.categoriesTree(Model, options)`
+
+#### recentlyActive
+
+`apiFactory.recentlyActive(Model, options)`
+
+#### scheduledContent
+
+`apiFactory.scheduledContent(Model, options)`
+
+#### weightedRandom
+
+`apiFactory.weightedRandom(Model, options)`
+
+#### diverseSample
+
+`apiFactory.diverseSample(Model, options)`
+
+#### qualityScores
+
+`apiFactory.qualityScores(Model, options)`
+
+#### flaggedContent
+
+`apiFactory.flaggedContent(Model, options)`
+
+#### previewCard
+
+`apiFactory.previewCard(Model, options)`
+
+#### shareableLink
+
+`apiFactory.shareableLink(Model, options)`
 
 ## 📚 Documentation
 
@@ -442,4 +961,4 @@ Copyleft (ɔ) 2023-2026, **Javier Ramos Nistal** <https://github.com/JaviRamosLa
 
 ### Show some ❤️ by starring 🌟 some of the [repositories](https://github.com/orgs/OperationCaribbeanSummer/repositories), [membering in the community](https://github.com/orgs/OperationCaribbeanSummer/people) and [fallowing us](https://github.com/orgs/OperationCaribbeanSummer)🙏!
 
-### Developed by Javier Ramos Nistal ([JaviRamosLab.com](https://JaviRamosLab.com)), ([@JaviRamosLab](https://github.com/JaviRamosLab)), ([++JaviRamosLab](https://OperationCaribbeanSummer.org/peoples/JaviRamosLab)) from 🇨🇺 Cuba with "❤️, ⏰" and whithout "💰"
+### Developed by Javier Ramos Nistal ([JaviRamosLab.com](https://JaviRamosLab.com)), ([@JaviRamosLab](https://github.com/JaviRamosLab)), ([++JaviRamosLab](https://OperationCaribbeanSummer.org/peoples/JaviRamosLab)) from 🇨🇺 Cuba with "❤️, ⏰" and without "💰"
